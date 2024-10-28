@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
 
 const Users = mongoose.model('User',userSchema);
 
-export default {
+export {
     validateUser,
     Users
 }
