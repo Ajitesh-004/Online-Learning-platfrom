@@ -1,4 +1,4 @@
-import { validateUser, Users } from "../models/user";
+import { validateUser, Users } from "../models/user.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from'dotenv';
