@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from'dotenv';
 dotenv.config();
 
-exports.SignUp = async (req, res) => {
+export const SignUp = async (req, res) => {
     const validate = validateUser.safeParse(req.body);
 
     if (!validate.success) {
@@ -31,7 +31,7 @@ exports.SignUp = async (req, res) => {
     }
 };
 
-exports.Login = async (req, res) => {
+export const Login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
