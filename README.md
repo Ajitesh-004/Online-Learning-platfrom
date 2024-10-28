@@ -52,48 +52,48 @@ An online learning platform that enables users to browse and enroll in courses, 
 
 1. **Clone the repository:**
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/Ashutosh-Shukla-036/Online-Learning-platfrom.git
    cd online-learning-platform
-   \`\`\`
+   ```
 
 2. **Backend Setup:**
 
-   \`\`\`bash
+   ```bash
    cd server
    npm install
-   \`\`\`
+   ```
 
    Create a `.env` file in the `server` directory and add the following environment variables:
 
-   \`\`\`
+   ```
    PORT=5000
    MONGO_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret_key
-   \`\`\`
+   ```
 
 3. **Frontend Setup:**
 
-   \`\`\`bash
+   ```bash
    cd ../client
    npm install
-   \`\`\`
+   ```
 
 4. **Run the project:**
 
    - To run the **backend** server:
 
-     \`\`\`bash
+     ```bash
      cd server
      npm start
-     \`\`\`
+     ```
 
    - To run the **frontend** React app:
 
-     \`\`\`bash
+     ```bash
      cd ../client
      npm start
-     \`\`\`
+     ```
 
    The backend will be running on `http://localhost:5000` and the frontend on `http://localhost:3000`.
 
@@ -105,7 +105,7 @@ An online learning platform that enables users to browse and enroll in courses, 
 
 ## Project Structure
 
-\`\`\`bash
+```bash
 online-learning-platform/
 ├── FrontEnd/            # React frontend code
 │   ├── public/
@@ -122,7 +122,7 @@ online-learning-platform/
 │   ├── middlewares/   # Authentication and error handling
 │   └── server.js      # Main entry point
 └── README.md          # This file
-\`\`\`
+```
 
 ## Contributing
 
