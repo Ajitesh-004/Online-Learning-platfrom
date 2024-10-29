@@ -2,7 +2,7 @@ export const signup = async (username, email, password) => {
     const response = await fetch('http://localhost:3000/api/signup', {
         method: 'POST',
         headers : {
-            'content-type': 'application/JSON'
+            'Content-type': 'application/JSON'
         },
         body: JSON.stringify({username, email, password})
     });

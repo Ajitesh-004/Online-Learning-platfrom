@@ -1,8 +1,8 @@
-export const login = async (email, password) => {
-    const response = await fetch('http://localhost:3009/api/login', {
+export const login = async (email, password, setUser) => {
+    const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         headers: {
-            'content-type': 'application/JSON'
+            'Content-Type': 'application/json' 
         },
         body: JSON.stringify({ email, password })
     });
@@ -14,6 +14,6 @@ export const login = async (email, password) => {
         throw new Error(errorMessage);
     }
 
-    localStorage.setItem('authToken', data.token);
-    setUser({ username: data.username, email: data.email });
-}
+    localStorage.setItem('Token', data.token);
+    setUser({ username: data.username, email: data.email }); 
+};
