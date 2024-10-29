@@ -4,6 +4,7 @@ import { userAtom } from "../atoms/userAtom";
 import Logo from '../assets/Logo.jpg';
 import { Menu } from '@headlessui/react';
 import { useCallback } from 'react';
+import Profile from '../assets/DefaultProfile.jpg';
 
 export const Navbar = () => {
     const [user, setUser] = useRecoilState(userAtom);
@@ -42,26 +43,26 @@ export const Navbar = () => {
                     <Menu as="div" className="relative">
                         <Menu.Button className="rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white" aria-label="User menu">
                             <img
-                                src="https://randomuser.me/api/portraits/men/10.jpg" // Replace with actual user profile picture
+                                src={Profile} 
                                 alt="User profile"
                                 className="h-8 w-8 rounded-full"
                                 onError={(e) => {
-                                    e.target.onerror = null; // prevents looping
-                                    e.target.src = 'fallback-image-url.jpg'; // Add a fallback image URL
+                                    e.target.onerror = null; 
+                                    e.target.src = 'fallback-image-url.jpg';
                                 }}
                             />
                         </Menu.Button>
                         <Menu.Items className="absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                             <Menu.Item>
                                 {({ active }) => (
-                                    <Link to="/profile" className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100' : 'text-gray-700'}`}>
+                                    <Link to="/profile" className={`block px-4 py-2 text-sm ${active ? 'bg-gray-700 text-white' : 'bg-gray-100'}`}>
                                         Profile
                                     </Link>
                                 )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button onClick={handleLogout} className={`block w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100' : 'text-gray-700'}`}>
+                                    <button onClick={handleLogout} className={`block w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-700 text-white' : 'bg-gray-100'}`}>
                                         Log Out
                                     </button>
                                 )}
