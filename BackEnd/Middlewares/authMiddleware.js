@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const authMiddleware = async (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -10,13 +10,15 @@ export const authMiddleware = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    console.log(token);
 
-    try{
-        const decoded = jwt.verify(token,process.env.JWT_KEY);
+    console.log("Token received:", token); // Debugging line
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_KEY); // Corrected variable name
         req.user = decoded;
         next();
-    } catch(error) {
+    } catch (error) {
+        console.error("Token verification failed:", error.message); // Log the specific error for debugging
         return res.status(401).json({ message: 'Invalid token' });
     }
-}
+};
