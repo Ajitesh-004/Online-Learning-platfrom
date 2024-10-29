@@ -22,7 +22,7 @@ export const Login = () => {
         } catch(error) {
             setEmail("");
             setPassword("");
-            setError(`Error: ${error.message}`)
+            setError(error.message)
         } finally {
             setIsLoading(false);
         }

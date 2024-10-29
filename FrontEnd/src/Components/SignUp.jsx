@@ -20,7 +20,7 @@ export const SignUp = () => {
             setUsername("");
             setEmail("");
             setPassword("");
-            setError(`Error: ${error.message}`);
+            setError(error.message);
         } finally {
             setIsLoading(false);
         }

@@ -12,6 +12,7 @@ export const Navbar = () => {
     const handleLogout = useCallback(() => {
         setUser(null);
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
     }, [setUser]);
 
     const MenuItemLink = ({ to, children }) => (
