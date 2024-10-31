@@ -27,7 +27,7 @@ export const SignUp = () => {
     };
 
     return (
-        <form onSubmit={HandleSubmit} className="bg-gray-100 p-8 rounded-md max-w-md mx-auto shadow-lg hover:bg-gradient-to-r hover:from-[#f5f7fa] hover:to-[#c3cfe2] transition duration-300 ease-in-out">
+        <form onSubmit={HandleSubmit} className="bg-gray-100 p-8 rounded-md max-w-md mx-auto shadow-lg hover:bg-gradient-to-r hover:from-[#fdfbfb] hover:to-[#ebedee] transition duration-300 ease-in-out">
             <h2 className="text-3xl font-bold mb-4 text-center text-black">Sign Up</h2>
             
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
