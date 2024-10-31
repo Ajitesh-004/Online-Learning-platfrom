@@ -15,6 +15,14 @@ export const login = async (email, password, setUser) => {
     }
 
     localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify({ username: data.username, email: data.email }));
-    setUser({ username: data.username, email: data.email }); 
+    localStorage.setItem('user', JSON.stringify({ 
+        username: data.username, 
+        email: data.email, 
+        userId: data.userId 
+    }));
+    setUser({ 
+        username: data.username, 
+        email: data.email, 
+        userId: data.userId 
+    }); 
 };
