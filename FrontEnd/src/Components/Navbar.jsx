@@ -124,6 +124,36 @@ export const Navbar = () => {
                             </MenuItem>
                             <MenuItem>
                                 {({ active }) => (
+                                    <Link
+                                        to="/purchasedcourses"
+                                        className={`block px-4 py-2 text-sm ${active ? 'bg-gray-700 text-white' : 'bg-gray-100'}`}
+                                    >
+                                        Purchased Courses
+                                    </Link>
+                                )}
+                            </MenuItem>
+                            <MenuItem>
+                                {({ active }) => (
+                                    <Link
+                                        to="/assigments"
+                                        className={`block px-4 py-2 text-sm ${active ? 'bg-gray-700 text-white' : 'bg-gray-100'}`}
+                                    >
+                                        Assigments
+                                    </Link>
+                                )}
+                            </MenuItem>
+                            <MenuItem>
+                                {({ active }) => (
+                                    <Link
+                                        to="/certificates"
+                                        className={`block px-4 py-2 text-sm ${active ? 'bg-gray-700 text-white' : 'bg-gray-100'}`}
+                                    >
+                                        Certificates
+                                    </Link>
+                                )}
+                            </MenuItem>
+                            <MenuItem>
+                                {({ active }) => (
                                     <button
                                         onClick={handleLogout}
                                         className={`block w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-700 text-white' : 'bg-gray-100'}`}
