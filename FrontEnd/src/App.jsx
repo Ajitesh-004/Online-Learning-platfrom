@@ -10,6 +10,7 @@ import { UserProfile } from './Components/Profile'
 import Contact from './Components/Contact';
 import { SearchResults } from './Components/SearchResults';
 import { searchQueryAtom } from './atoms/searchQueryAtom';
+import  Footer  from './Components/Footer';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/profile" element={user ? <UserProfile /> : <Navigate to="/login" />} />
         </Routes>
       </div>
+      <Footer />
     </>
   );
 }
