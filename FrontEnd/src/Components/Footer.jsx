@@ -18,9 +18,6 @@ const Footer = () => {
           {/* Social Media Links */}
           <div className="flex justify-center space-x-6 mt-4">
             <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <FaGithub className="text-2xl text-gray-400 hover:text-blue-500 transition" />
-            </a>
-            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                 <FaFacebook className="text-2xl text-gray-400 hover:text-blue-500 transition" />
             </a>
             <a href="https://www.linkedin.com/company/it-defined/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
