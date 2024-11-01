@@ -44,10 +44,6 @@ export const Home = () => {
                     </div>
                 </div>
             </section>
-
-            <footer className="text-center py-6">
-                <p className="text-gray-600">&copy; {new Date().getFullYear()} Online Learning Platform. All Rights Reserved.</p>
-            </footer>
         </div>
     );
 };
