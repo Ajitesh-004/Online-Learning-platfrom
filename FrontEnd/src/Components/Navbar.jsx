@@ -6,6 +6,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { useCallback, useState } from 'react';
 import Profile from '../assets/DefaultProfile.jpg';
 import { searchQueryAtom } from "../atoms/searchQueryAtom";
+import { FaReact } from 'react-icons/fa';
 
 export const Navbar = () => {
     const [user, setUser] = useRecoilState(userAtom);
@@ -33,6 +34,7 @@ export const Navbar = () => {
         <nav className="bg-white p-4 flex justify-between items-center relative">
             {/* Logo and Desktop Menu */}
             <div className="flex items-center space-x-4">
+            <FaReact className="text-black h-10 w-auto animate-rotate" />
                 <Link to="/">
                     <img
                         src={Logo}
