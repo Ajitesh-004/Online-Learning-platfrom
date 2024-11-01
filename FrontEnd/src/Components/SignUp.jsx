@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { signup } from "../API_Calls/SignUpAPI";
-import { useNavigate, Link } from "react-router-dom"; // Import useNavigate and Link
+import { useNavigate, Link } from "react-router-dom"; 
+import { HiOutlineUserCircle, HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export const SignUp = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate(); 
 
-    const HandleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault(); 
         setIsLoading(true);
         try {
@@ -27,42 +30,70 @@ export const SignUp = () => {
     };
 
     return (
-        <form onSubmit={HandleSubmit} className="bg-gray-100 p-8 rounded-md max-w-md mx-auto shadow-lg hover:bg-gradient-to-r hover:from-[#fdfbfb] hover:to-[#ebedee] transition duration-300 ease-in-out">
+        <form onSubmit={handleSubmit} className="bg-gray-100 p-8 rounded-md max-w-md mx-auto shadow-lg hover:bg-gradient-to-r hover:from-[#fdfbfb] hover:to-[#ebedee] transition duration-300 ease-in-out">
             <h2 className="text-3xl font-bold mb-4 text-center text-black">Sign Up</h2>
             
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-            <div className="mb-6">
+            {/* Username Field */}
+            <div className="mb-6 relative">
                 <label className="block text-gray-800 font-semibold">Username*</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+                <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <HiOutlineUserCircle className="text-gray-400 h-5 w-5" />
+                    </span>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
             </div>
     
-            <div className="mb-6">
+            {/* Email Field */}
+            <div className="mb-6 relative">
                 <label className="block text-gray-800 font-semibold">Email*</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+                <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <HiOutlineMail className="text-gray-400 h-5 w-5" />
+                    </span>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
             </div>
     
-            <div className="mb-6">
+            {/* Password Field */}
+            <div className="mb-6 relative">
                 <label className="block text-gray-800 font-semibold">Password*</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                />
+                <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <HiOutlineLockClosed className="text-gray-400 h-5 w-5" />
+                    </span>
+                    <input
+                        type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full p-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <span
+                        onClick={() => setShowPassword((prev) => !prev)} // Toggle password visibility
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                    >
+                        {showPassword ? (
+                            <AiFillEye className="text-gray-400 h-5 w-5" /> // Show eye icon
+                        ) : (
+                            <AiFillEyeInvisible className="text-gray-400 h-5 w-5" /> // Hide eye icon
+                        )}
+                    </span>
+                </div>
             </div>
     
             <button
