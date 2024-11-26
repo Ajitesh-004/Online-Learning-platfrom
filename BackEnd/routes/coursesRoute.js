@@ -4,7 +4,7 @@ import { authMiddleware } from '../Middlewares/authMiddleware.js';
 const route = express.Router();
 
 route.post("/addcourses", addCourse);
-route.get("/getcourses",authMiddleware, getCourses);
+route.get("/getcourses", getCourses);
 route.post("/updatecourses/:courseId", updateCourse);
 route.delete("/deletecourses/:courseId", deleteCourse);
 route.post("/addreview/:courseId", authMiddleware, addReview);
