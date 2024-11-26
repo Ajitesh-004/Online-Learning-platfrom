@@ -14,7 +14,7 @@ export const login = async (email, password, setUser) => {
         throw new Error(errorMessage);
     }
 
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('Token', data.token);
     localStorage.setItem('user', JSON.stringify({ 
         username: data.username, 
         email: data.email, 
