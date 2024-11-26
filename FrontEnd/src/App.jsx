@@ -11,6 +11,7 @@ import Contact from './Components/Contact';
 import { SearchResults } from './Components/SearchResults';
 import { searchQueryAtom } from './atoms/searchQueryAtom';
 import  Footer  from './Components/Footer';
+import CoursePage from './Components/CoursesPage';
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path='/signup' element={<SignUp />}/>
           <Route path='/login' element={<Login />}/>
           <Route path="/contact" element={<Contact />}/>
+          <Route path="/courses" element={<CoursePage />}/>
           <Route path="/profile" element={user ? <UserProfile /> : <Navigate to="/login" />} />
         </Routes>
       </div>
