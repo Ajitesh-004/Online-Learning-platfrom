@@ -4,6 +4,7 @@ import connectDB from './db/index.js';
 import dotenv from 'dotenv';
 import UserRoute from './routes/userRoute.js';
 import ProfileRoute from './routes/profileRoute.js'
+import CoursesRoute from "./routes/coursesRoute.js";
 import { authMiddleware } from './Middlewares/authMiddleware.js';
 
 dotenv.config();
@@ -14,6 +15,7 @@ connectDB();
 
 app.use('/api', UserRoute);
 app.use('/api/profiles',authMiddleware,ProfileRoute)
+app.use('/api/courses',CoursesRoute);
 
 app.get('/', (req, res) => {
     res.status(200).send("Hello from Express!");
