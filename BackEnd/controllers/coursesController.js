@@ -1,72 +1,80 @@
 import Courses from "../models/courses";
 
-export const AddCourses = async (req, res) => {
-  const { title, description, price, thumnbnail } = req.body;
+// Add a new course
+export const addCourse = async (req, res) => {
+  const { title, category, description, duration, price, thumbnail } = req.body;
 
-  if (!title || !description || !price || !thumnbnail) {
-    return res.status(400).json({ message: "Enter all field" });
+  if (!title || !category || !description || !duration || !price || !thumbnail) {
+    return res.status(400).json({ message: "Please fill in all required fields." });
   }
 
   try {
     const newCourse = new Courses({
       title,
+      category,
       description,
+      duration,
       price,
-      thumnbnail,
+      thumbnail,
     });
+
     await newCourse.save();
-    return res.status(201).json({ message: "Assisgment saved successfully" });
+    return res.status(201).json({ message: "Course added successfully." });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
   }
 };
 
+// Get all courses
 export const getCourses = async (req, res) => {
   try {
     const courses = await Courses.find();
-    if (!courses) {
-      return res.status(404).json({ message: "course not found" });
+    if (courses.length === 0) {
+      return res.status(404).json({ message: "No courses found." });
     }
 
     return res.status(200).json(courses);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
   }
 };
 
+// Update a course by ID
 export const updateCourse = async (req, res) => {
-  const { courseId } = req.parmas;
-  const data = req.body;
+  const { courseId } = req.params; // Fixed typo in `params`
+  const updateData = req.body;
 
   try {
-    const course = await Courses.findOne({ courseId });
+    const course = await Courses.findById(courseId);
     if (!course) {
-      return res.status(404).json({ message: "course not found" });
+      return res.status(404).json({ message: "Course not found." });
     }
 
-    Object.assign(course, data.data);
+    Object.assign(course, updateData);
     await course.save();
-    return res.status(200).json({ message: "Course updated successfu;ly " });
+
+    return res.status(200).json({ message: "Course updated successfully.", course });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
   }
 };
 
+// Delete a course by ID
 export const deleteCourse = async (req, res) => {
-  const { courseId } = req.parmas;
+  const { courseId } = req.params; // Fixed typo in `params`
 
   try {
-    const Course = await Courses.findByIdAndDelete(courseId);
-    if (!Course) {
-      return res.status(404).json({ message: "No course found" });
+    const course = await Courses.findByIdAndDelete(courseId);
+    if (!course) {
+      return res.status(404).json({ message: "Course not found." });
     }
 
-    return res.status(200).json({ message: "Course deleted successfully" });
+    return res.status(200).json({ message: "Course deleted successfully." });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error." });
   }
 };
