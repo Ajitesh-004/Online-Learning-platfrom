@@ -1,19 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { coursesAtom } from "../atoms/coursesAtom";
+import { profileAtom } from "../atoms/profileAtom";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import FullStack from "../assets/thumbnails/FullStack.jpg";
 import Cyber from "../assets/thumbnails/Cyber.jpg";
+import { userAtom } from "../atoms/userAtom";
 
 const CoursePage = () => {
   const [courses, setCourses] = useRecoilState(coursesAtom);
+  const [user] = useRecoilState(userAtom); // Get user data
+  const [selectedCourse, setSelectedCourse] = useState(null); // Track the selected course for payment
+  const [open, setOpen] = useState(false); // Modal state
   const navigate = useNavigate();
 
   // Map thumbnail keys to imported assets
@@ -41,9 +48,39 @@ const CoursePage = () => {
     navigate(`/course/${courseId}`);
   };
 
-  const handleBuyNow = (courseId) => {
-    alert(`Course with ID ${courseId} purchased!`);
-    // Add actual purchase functionality here
+  const handleBuyNow = (course) => {
+    setSelectedCourse(course);
+    setOpen(true); // Open the modal
+  };
+
+  const handlePayment = async () => {
+    if (!user) {
+      alert("Please log in to complete your purchase.");
+      return;
+    }
+
+    try {
+      // Simulate payment process
+      const paymentData = {
+        userId: user.userId,
+        courseId: selectedCourse._id,
+        amount: selectedCourse.price.discounted || selectedCourse.price.regular,
+        paymentMethod: "credit_card",
+        transactionId: `TXN${Date.now()}`, // Generate a unique transaction ID
+      };
+
+      const response = await axios.post("http://localhost:3000/api/payments/createpayment", paymentData);
+
+      if (response.status === 201) {
+        alert("Payment successful!");
+        setOpen(false); // Close the modal
+      } else {
+        alert("Payment failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during payment:", error);
+      alert("An error occurred during payment.");
+    }
   };
 
   return (
@@ -57,7 +94,6 @@ const CoursePage = () => {
         </p>
       </header>
 
-      {/* Show message if no courses are available */}
       {courses.length === 0 ? (
         <div className="text-center mt-10 text-lg text-gray-600">
           <p>No courses available at the moment. Please check back later.</p>
@@ -78,15 +114,12 @@ const CoursePage = () => {
                 },
               }}
             >
-              {/* Thumbnail */}
               <CardMedia
                 component="img"
                 alt={course.title}
                 height="200"
                 image={thumbnailMap[course.thumbnail] || "default-thumbnail.jpg"}
               />
-
-              {/* Course Details */}
               <CardContent>
                 <Typography
                   variant="h6"
@@ -99,7 +132,10 @@ const CoursePage = () => {
                 >
                   {course.title}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary", mt: 1, textAlign: "center" }}>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "text.secondary", mt: 1, textAlign: "center" }}
+                >
                   {course.description.slice(0, 80)}...
                 </Typography>
                 <div className="mt-3 text-center">
@@ -108,7 +144,6 @@ const CoursePage = () => {
                     sx={{
                       fontWeight: "bold",
                       color: course.price?.discounted ? "#2e7d32" : "#333",
-                      animation: course.price?.discounted ? "bounce 1s infinite alternate" : "none",
                     }}
                   >
                     ₹{course.price?.discounted || course.price?.regular}
@@ -121,42 +156,12 @@ const CoursePage = () => {
                       ₹{course.price.regular}
                     </Typography>
                   )}
-                  {course.price?.discounted && (
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        color: "green",
-                        fontWeight: "bold",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      Limited-time offer!
-                    </Typography>
-                  )}
                 </div>
               </CardContent>
-
-              {/* Actions */}
-              <CardActions
-                sx={{
-                  justifyContent: "space-between",
-                  px: 2,
-                  pb: 2,
-                  pt: 0,
-                  borderTop: "1px solid #f0f0f0",
-                }}
-              >
+              <CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2, pt: 0 }}>
                 <Button
                   size="small"
                   variant="outlined"
-                  sx={{
-                    borderColor: "#1976d2",
-                    color: "#1976d2",
-                    "&:hover": {
-                      backgroundColor: "#1976d2",
-                      color: "white",
-                    },
-                  }}
                   onClick={() => handleLearnMore(course._id)}
                 >
                   Learn More
@@ -164,14 +169,8 @@ const CoursePage = () => {
                 <Button
                   size="small"
                   variant="contained"
-                  sx={{
-                    backgroundColor: "#d32f2f",
-                    color: "white",
-                    "&:hover": {
-                      backgroundColor: "#b71c1c",
-                    },
-                  }}
-                  onClick={() => handleBuyNow(course._id)}
+                  color="primary"
+                  onClick={() => handleBuyNow(course)}
                 >
                   Buy Now
                 </Button>
@@ -180,6 +179,40 @@ const CoursePage = () => {
           ))}
         </section>
       )}
+
+      {/* Payment Modal */}
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            Confirm Purchase
+          </Typography>
+          <Typography sx={{ mt: 2 }}>
+            Are you sure you want to purchase <strong>{selectedCourse?.title}</strong> for ₹
+            {selectedCourse?.price.discounted || selectedCourse?.price.regular}?
+          </Typography>
+          <Box sx={{ mt: 3, display: "flex", justifyContent: "space-between" }}>
+            <Button variant="contained" color="success" onClick={handlePayment}>
+              Confirm
+            </Button>
+            <Button variant="outlined" color="error" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };

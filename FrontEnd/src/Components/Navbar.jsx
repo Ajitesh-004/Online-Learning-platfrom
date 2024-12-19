@@ -127,79 +127,79 @@ export const Navbar = () => {
       <div className="flex items-center space-x-4">
         {user ? (
           <Menu as="div" className="relative">
-            <MenuButton
-              className="rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white"
-              aria-label="User menu"
-            >
-              <img
-                src={Profile}
-                alt="User profile"
-                className="h-8 w-8 rounded-full"
-              />
-            </MenuButton>
-            <MenuItems className="absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
-              <MenuItem>
-                {({ active }) => (
-                  <Link
-                    to="/profile"
-                    className={`block px-4 py-2 text-sm ${
-                      active ? "bg-gray-700 text-white" : "bg-gray-100"
-                    }`}
-                  >
-                    Profile
-                  </Link>
-                )}
-              </MenuItem>
-              <MenuItem>
-                {({ active }) => (
-                  <Link
-                    to="/purchasedcourses"
-                    className={`block px-4 py-2 text-sm ${
-                      active ? "bg-gray-700 text-white" : "bg-gray-100"
-                    }`}
-                  >
-                    Purchased Courses
-                  </Link>
-                )}
-              </MenuItem>
-              <MenuItem>
-                {({ active }) => (
-                  <Link
-                    to="/assigments"
-                    className={`block px-4 py-2 text-sm ${
-                      active ? "bg-gray-700 text-white" : "bg-gray-100"
-                    }`}
-                  >
-                    Assigments
-                  </Link>
-                )}
-              </MenuItem>
-              <MenuItem>
-                {({ active }) => (
-                  <Link
-                    to="/certificates"
-                    className={`block px-4 py-2 text-sm ${
-                      active ? "bg-gray-700 text-white" : "bg-gray-100"
-                    }`}
-                  >
-                    Certificates
-                  </Link>
-                )}
-              </MenuItem>
-              <MenuItem>
-                {({ active }) => (
-                  <button
-                    onClick={handleLogout}
-                    className={`block w-full text-left px-4 py-2 text-sm ${
-                      active ? "bg-gray-700 text-white" : "bg-gray-100"
-                    }`}
-                  >
-                    Log Out
-                  </button>
-                )}
-              </MenuItem>
-            </MenuItems>
-          </Menu>
+          <MenuButton
+            className="rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white"
+            aria-label="User menu"
+          >
+            <img
+              src={Profile}
+              alt="User profile"
+              className="h-8 w-8 rounded-full"
+            />
+          </MenuButton>
+          <MenuItems className="absolute right-0 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+            <MenuItem>
+              {({ active }) => (
+                <Link
+                  to="/profile"
+                  className={`block px-4 py-2 text-sm ${active ? "bg-gray-700 text-white" : "bg-gray-100"}`}
+                >
+                  Profile
+                </Link>
+              )}
+            </MenuItem>
+            <MenuItem>
+              {({ active }) => (
+                <Link
+                  to="/payments"
+                  className={`block px-4 py-2 text-sm ${active ? "bg-gray-700 text-white" : "bg-gray-100"}`}
+                >
+                  Payment History
+                </Link>
+              )}
+            </MenuItem>
+            <MenuItem>
+              {({ active }) => (
+                <Link
+                  to="/submissions"
+                  className={`block px-4 py-2 text-sm ${active ? "bg-gray-700 text-white" : "bg-gray-100"}`}
+                >
+                  Submissions
+                </Link>
+              )}
+            </MenuItem>
+            <MenuItem>
+              {({ active }) => (
+                <Link
+                  to="/content"
+                  className={`block px-4 py-2 text-sm ${active ? "bg-gray-700 text-white" : "bg-gray-100"}`}
+                >
+                  Course Content
+                </Link>
+              )}
+            </MenuItem>
+            <MenuItem>
+              {({ active }) => (
+                <Link
+                  to="/quizzes"
+                  className={`block px-4 py-2 text-sm ${active ? "bg-gray-700 text-white" : "bg-gray-100"}`}
+                >
+                  Quizzes
+                </Link>
+              )}
+            </MenuItem>
+            <MenuItem>
+              {({ active }) => (
+                <button
+                  onClick={handleLogout}
+                  className={`block w-full text-left px-4 py-2 text-sm ${active ? "bg-gray-700 text-white" : "bg-gray-100"}`}
+                >
+                  Log Out
+                </button>
+              )}
+            </MenuItem>
+          </MenuItems>
+        </Menu>        
         ) : (
           <>
             <div className="bg-gradient-to-r from-[#e0c3fc] to-[#8ec5fc] px-4 py-2 rounded-md text-center transition-all duration-300 hover:bg-gradient-to-r hover:from-[#a1c4fd] hover:to-[#c2e9fb]">

@@ -2,22 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { coursesAtom } from "../atoms/coursesAtom";
+import axios from "axios";
 import FullStack from "../assets/thumbnails/FullStack.jpg";
 import Cyber from "../assets/thumbnails/Cyber.jpg";
+import { userAtom } from "../atoms/userAtom";
 
 const CourseDetailsPage = () => {
   const { courseId } = useParams();
+  const user = useRecoilValue(userAtom);
   const courses = useRecoilValue(coursesAtom);
   const setCourses = useSetRecoilState(coursesAtom);
   const [course, setCourse] = useState(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(null);
 
   useEffect(() => {
-    // Try to find the course in Recoil state
     const foundCourse = courses.find((c) => c._id === courseId);
     if (foundCourse) {
       setCourse(foundCourse);
     } else {
-      // Fetch course data if not found in Recoil
       const fetchCourse = async () => {
         try {
           const response = await axios.get(`http://localhost:3000/api/courses/getcourses`);
@@ -31,6 +34,40 @@ const CourseDetailsPage = () => {
       fetchCourse();
     }
   }, [courseId, courses, setCourses]);
+
+  const handleBuyCourse = async () => {
+    if (!user) {
+      alert("Please log in to complete your purchase.");
+      return;
+    }
+
+    setIsProcessingPayment(true);
+    setPaymentStatus(null);
+
+    // Simulate payment gateway processing
+    setTimeout(async () => {
+      try {
+        // Simulate successful payment
+        const response = await axios.post("http://localhost:3000/api/payments/createpayment", {
+          userId: user.userId, // Replace with actual user ID
+          courseId,
+          amount: course.price?.discounted || course.price?.regular,
+          paymentMethod: "credit_card", // Simulate a payment method
+          transactionId: `TXN${Date.now()}`, // Generate a dummy transaction ID
+        });
+
+        setPaymentStatus("success");
+        alert("Payment successful! You now own this course.");
+        console.log("Payment Response:", response.data);
+      } catch (error) {
+        console.error("Payment failed:", error);
+        setPaymentStatus("failure");
+        alert("Payment failed. Please try again.");
+      } finally {
+        setIsProcessingPayment(false);
+      }
+    }, 2000); // Simulate 2 seconds of payment processing
+  };
 
   if (!course) {
     return (
@@ -47,23 +84,19 @@ const CourseDetailsPage = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-5">
-      {/* Course Header */}
       <header className="text-center py-10">
         <h1 className="text-4xl font-bold text-gray-800">{course.title}</h1>
         <p className="mt-2 text-lg font-semibold text-blue-600">{course.category}</p>
         <p className="mt-4 text-lg text-gray-600">{course.description}</p>
       </header>
 
-      {/* Course Details Section */}
       <section className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        {/* Thumbnail */}
         <img
-          src={thumbnailMap[course.thumbnail]} // Adjust to your image path
+          src={thumbnailMap[course.thumbnail]}
           alt={course.title}
           className="w-full h-auto rounded-lg"
         />
 
-        {/* Overview */}
         <div className="mt-6 grid grid-cols-2 gap-4">
           <div className="bg-gray-50 p-4 rounded-lg shadow">
             <h3 className="text-lg font-semibold text-gray-800">Duration</h3>
@@ -85,7 +118,6 @@ const CourseDetailsPage = () => {
           </div>
         </div>
 
-        {/* Modules */}
         <div className="mt-6">
           <h2 className="text-2xl font-bold text-gray-800">What You'll Learn</h2>
           <ul className="list-disc list-inside mt-2 text-gray-600">
@@ -95,7 +127,6 @@ const CourseDetailsPage = () => {
           </ul>
         </div>
 
-        {/* Pricing and Buy Button */}
         <div className="mt-10 text-center">
           <div className="text-3xl font-bold text-gray-800">
             ₹{course.price?.discounted || course.price?.regular}
@@ -108,9 +139,21 @@ const CourseDetailsPage = () => {
           <p className="text-sm text-green-600 font-semibold">
             {course.price?.discounted && "Limited time offer! Enroll now to save."}
           </p>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 mt-6 rounded-lg shadow-lg">
-            Buy Course
+          <button
+            className={`px-8 py-3 mt-6 rounded-lg shadow-lg text-white ${
+              isProcessingPayment ? "bg-gray-500" : "bg-blue-600 hover:bg-blue-700"
+            }`}
+            disabled={isProcessingPayment}
+            onClick={handleBuyCourse}
+          >
+            {isProcessingPayment ? "Processing..." : "Buy Course"}
           </button>
+          {paymentStatus === "success" && (
+            <p className="mt-4 text-green-600 font-bold">Payment Successful!</p>
+          )}
+          {paymentStatus === "failure" && (
+            <p className="mt-4 text-red-600 font-bold">Payment Failed. Try Again.</p>
+          )}
         </div>
       </section>
     </div>
