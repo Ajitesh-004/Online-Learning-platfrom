@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Quiz from "./quiz"; // Assuming you have a Quiz model
+import Quiz from "./quiz.js"; // Assuming you have a Quiz model
 
 const submissionSchema = mongoose.Schema({
   user: {
