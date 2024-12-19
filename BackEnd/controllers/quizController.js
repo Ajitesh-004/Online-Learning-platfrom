@@ -54,4 +54,29 @@ export const deleteQuiz = async (req, res) => {
       return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const getQuiz = ("/:quizId", async (req, res) => {
+  const { quizId } = req.params;
+
+  try {
+      const quiz = await Quiz.findById(quizId);
+      if (!quiz) {
+          return res.status(404).json({ message: "Quiz not found" });
+      }
+      res.status(200).json(quiz);
+  } catch (error) {
+      console.error("Error fetching quiz:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
   
+
+// Assuming this is your quiz route
+export const GetAllQuiz = ("/getAllQuizzes", async (req, res) => {
+  try {
+      const quizzes = await Quiz.find(); // Adjust query if you need to filter quizzes
+      res.status(200).json(quizzes);
+  } catch (error) {
+      res.status(500).json({ message: "Failed to fetch quizzes." });
+  }
+});

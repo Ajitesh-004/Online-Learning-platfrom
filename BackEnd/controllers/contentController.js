@@ -1,9 +1,11 @@
 import Content from "../models/content.js";
 
 export const addContent = async (req, res) => {
-    const { title, description, courseId, type, resource, duration, order } = req.body;
+    const { title, description, course, type, resource, duration, order } = req.body;
 
-    if (!title || !courseId || !type) {
+    console.log(title, course, type);
+
+    if (!title || !course || !type) {
         return res.status(400).json({ message: "Title, course ID, and type are required" });
     }
 
@@ -11,7 +13,7 @@ export const addContent = async (req, res) => {
         const newContent = new Content({
         title,
         description,
-        course: courseId,
+        course: course,
         type,
         resource,
         duration,
